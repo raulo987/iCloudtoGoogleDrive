@@ -135,13 +135,17 @@ fi
 
 # ---- --status mode (no lock / no network) ----------------------------------
 if [ "${1:-}" = "--status" ]; then
-  if [ -f "$LAST_OK" ]; then
-    ts="$(cat "$LAST_OK")"; now="$(date +%s)"; age=$(( (now - ts) / 60 ))
-    printf 'Last successful backup: %s (%d min ago)\n' "$(date -r "$ts" '+%F %T')" "$age"
-    [ "$age" -gt 1440 ] && printf 'WARNING: last success > 24h ago.\n'
-  else
-    printf 'No successful backup recorded yet.\n'
-  fi
+  ts="$(cat "$LAST_OK" 2>/dev/null || true)"
+  # Guard against a missing/empty/corrupt timestamp: only do arithmetic on digits,
+  # else `set -u` would abort trying to evaluate garbage in $(( )).
+  case "$ts" in
+    ''|*[!0-9]*)
+      printf 'No successful backup recorded yet.\n' ;;
+    *)
+      now="$(date +%s)"; age=$(( (now - ts) / 60 ))
+      printf 'Last successful backup: %s (%d min ago)\n' "$(date -r "$ts" '+%F %T')" "$age"
+      [ "$age" -gt 1440 ] && printf 'WARNING: last success > 24h ago.\n' ;;
+  esac
   exit 0
 fi
 

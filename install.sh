@@ -21,7 +21,9 @@ echo "==> Building GUI"
 bash "$REPO/build-gui.sh"
 
 echo
-echo "Installed. Next:"
+echo "Installed. Next (menu labels appear in your Mac's language, EN/ET):"
+echo "  0) Turn OFF System Settings → Apple Account → iCloud → 'Optimise Mac Storage',"
+echo "     and grant Full Disk Access to 'Drive Backup' and /bin/bash."
 echo "  1) open \"\$HOME/Applications/Drive Backup.app\""
-echo "  2) menu-bar icon → \"Seadista Google Drive…\" (one-time OAuth)"
-echo "  3) menu-bar icon → \"Seaded…\" → pick folders, interval, enable schedule"
+echo "  2) menu-bar icon → \"Set up Google Drive…\" (\"Seadista Google Drive…\") — one-time OAuth"
+echo "  3) menu-bar icon → \"Settings…\" (\"Seaded…\") → pick folders, interval, enable schedule"

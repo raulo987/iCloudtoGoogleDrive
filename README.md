@@ -59,7 +59,7 @@ Even on the Google Drive side, nothing is lost abruptly:
   the real sync is refused entirely — a corrupted/half-mounted source can't
   silently gut the backup.
 
-These properties are covered by the test suite (`./test.sh`, 75 assertions,
+These properties are covered by the test suite (`./test.sh`, 77 assertions,
 including "source is byte-identical before/after a sync").
 
 ---
@@ -244,7 +244,7 @@ gaps), the tool includes:
 ## Testing
 
 ```sh
-./test.sh                                   # engine: 75 assertions in a sandbox
+./test.sh                                   # engine: 77 assertions in a sandbox
 "$HOME/Applications/Drive Backup.app/Contents/MacOS/Drive Backup" --selftest
 ```
 

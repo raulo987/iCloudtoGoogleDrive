@@ -341,6 +341,16 @@ check "error names Full Disk Access (not 'empty')" 'grep -q "Full Disk Access" "
 check "unreadable source mirror NOT gutted"        '[ -f "$DEST/NoPerm/f.txt" ]'
 echo
 
+echo "T27: --status is robust against a missing/empty/corrupt timestamp"
+mkdir -p "$STATE_DIR"
+printf 'not-a-number' > "$STATE_DIR/last-success"
+out="$(run --status 2>&1)"; rc=$?
+check "corrupt timestamp -> clean message, no bash error" '[ "'$rc'" -eq 0 ] && echo "'"$out"'" | grep -q "No successful backup" && ! echo "'"$out"'" | grep -qi "unbound\|error"'
+: > "$STATE_DIR/last-success"
+out="$(run --status 2>&1)"
+check "empty timestamp -> clean message"                 'echo "'"$out"'" | grep -q "No successful backup"'
+echo
+
 echo "=================================================="
 printf 'RESULT: %d passed, %d failed\n' "$pass" "$fail"
 [ "$fail" -eq 0 ]

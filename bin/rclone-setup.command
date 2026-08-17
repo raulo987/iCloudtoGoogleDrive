@@ -14,6 +14,7 @@ CONFIG="$HOME/.config/gdrive-backup/config"
 LANG_PREF=""
 if [ -f "$CONFIG" ]; then
   # Read only GUI_LANG in a subshell so the rest of the config can't leak in.
+  # shellcheck disable=SC1090  # runtime-provided, user-owned config path
   LANG_PREF="$( . "$CONFIG" 2>/dev/null; printf '%s' "${GUI_LANG:-}" )"
 fi
 if [ -z "$LANG_PREF" ]; then                         # fall back to the system locale
